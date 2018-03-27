@@ -29,12 +29,12 @@ function addApp(appsDiv) {
     };
 
     var img = document.createElement('img');
-    img.src = 'icon.png';
+    img.src = 'slon.png';
     div.appendChild(img);
 
     var title = document.createElement('span');
     title.className = 'app_title';
-    title.innerText = 'Memo app';
+    //title.innerText = 'Memo app';
     div.appendChild(title);
 
     appsDiv.appendChild(div);

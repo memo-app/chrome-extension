@@ -15,8 +15,11 @@ function clearAlarm() {
 }
 
 function launchApp() {
-  window.open("https://memoapp.net/");
-  window.close(); // Only needed on OSX because of crbug.com/63594
+  //window.open("https://memoapp.net/");
+  postData(' https://memoapp.net/api/memos', {link: "nekiLink", title:"NekiTitle", description:"NekiDeskripsn"})
+  .then(data => console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+  //window.close(); // Only needed on OSX because of crbug.com/63594
 }
   
   // Adds DOM nodes for |app| into |appsDiv|.
@@ -61,3 +64,20 @@ document.getElementById('sampleSecond').addEventListener('click', setAlarm);
 document.getElementById('15min').addEventListener('click', setAlarm);
 document.getElementById('cancelAlarm').addEventListener('click', clearAlarm);
 
+function postData(url, data) {
+  // Default options are marked with *
+  return fetch(url, {
+    body: JSON.stringify(data), // must match 'Content-Type' header
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'user-agent': 'Mozilla/4.0 MDN Example',
+      'content-type': 'application/json'
+    },
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, cors, *same-origin
+    redirect: 'follow', // *manual, follow, error
+    referrer: 'no-referrer', // *client, no-referrer
+  })
+  .then(response => response.json()) // parses response to JSON
+}

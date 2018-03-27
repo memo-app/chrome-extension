@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', CreateAppDisplay());
 // ovdje definiramo da kada se kline na button definiran u popup.html-u da se pozove funkcija
 //An Alarm delay of less than the minimum 1 minute will fire
 // in approximately 1 minute incriments if released
-document.getElementById('sampleSecond').addEventListener('click', setAlarm);
-document.getElementById('15min').addEventListener('click', setAlarm);
-document.getElementById('cancelAlarm').addEventListener('click', clearAlarm);
+//document.getElementById('sampleSecond').addEventListener('click', setAlarm);
+//document.getElementById('15min').addEventListener('click', setAlarm);
+//document.getElementById('cancelAlarm').addEventListener('click', clearAlarm);
 
 function postData(url, data) {
   // Default options are marked with *
@@ -82,3 +82,4 @@ function postData(url, data) {
   })
   .then(response => response.json()) // parses response to JSON
 }
+

@@ -15,11 +15,11 @@ function clearAlarm() {
 }
 
 function launchApp() {
-  //window.open("https://memoapp.net/");
-  postData(' https://memoapp.net/api/memos', {link: "nekiLink", title:"NekiTitle", description:"NekiDeskripsn"})
+  postData(' https://memoapp.net/api/memos', {link: "nekiLink", title:"NekiTitle", description:"NekiDeskripsn", categories: []})
   .then(data => console.log(data)) // JSON from `response.json()` call
   .catch(error => console.error(error))
-  //window.close(); // Only needed on OSX because of crbug.com/63594
+  window.open("https://memoapp.net/");
+  window.close(); // Only needed on OSX because of crbug.com/63594
 }
   
   // Adds DOM nodes for |app| into |appsDiv|.
@@ -69,15 +69,16 @@ function postData(url, data) {
   return fetch(url, {
     body: JSON.stringify(data), // must match 'Content-Type' header
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, same-origin, *omit
+    //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'user-agent': 'Mozilla/4.0 MDN Example',
-      'content-type': 'application/json'
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJfaWQiOiI1YWFhZjJmZGI4MzE1ZDIxNTM5NWQwOGIiLCJ1c2VybmFtZSI6Ik5la29JbWUiLCJwYXNzd29yZCI6IiQyYSQxMCR2YVo5YlllNHRZNEJuR2Yzbjg5ekp1V0R2NmMwbndKenU0NmxWV2RpRkJvZlpvcVIxVDZTMiIsIl9fdiI6MCwiaWF0IjoxNTIyMTY3MTUxfQ.rzDElGVPqzdUCZVMOD_h0qhBFReHQpBU716R9cShG7g',//token
+      'Content-Type': 'application/json',
+      'user-agent': 'MemoApp Chrome Extension v0.1'
     },
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, cors, *same-origin
-    redirect: 'follow', // *manual, follow, error
-    referrer: 'no-referrer', // *client, no-referrer
+    //mode: 'cors', // no-cors, cors, *same-origin
+    //redirect: 'follow', // *manual, follow, error
+    //referrer: 'no-referrer', // *client, no-referrer
   })
   .then(response => response.json()) // parses response to JSON
 }

@@ -18,8 +18,8 @@ function launchApp() {
   postData(' https://memoapp.net/api/memos', {link: "nekiLink", title:"NekiTitle", description:"NekiDeskripsn", categories: []})
   .then(data => console.log(data)) // JSON from `response.json()` call
   .catch(error => console.error(error))
-  window.open("https://memoapp.net/");
-  window.close(); // Only needed on OSX because of crbug.com/63594
+ // window.open("https://memoapp.net/");
+  //window.close(); // Only needed on OSX because of crbug.com/63594
 }
   
   // Adds DOM nodes for |app| into |appsDiv|.

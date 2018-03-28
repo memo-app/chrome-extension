@@ -84,10 +84,16 @@ function postData(url, data) {
 }
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
+document.getElementById("drop").addEventListener("click", myFunction);
+
+
+
 function myFunction() {
   
   document.getElementById("myDropdown").classList.toggle('show');
 }
+
+
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {

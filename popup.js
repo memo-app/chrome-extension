@@ -15,7 +15,6 @@ function clearAlarm() {
 }
 
 function launchApp() {
-
   window.open("https://memoapp.net/");
   window.close(); // Only needed on OSX because of crbug.com/63594
 }
@@ -61,6 +60,7 @@ document.addEventListener('DOMContentLoaded', CreateAppDisplay());
 document.getElementById('Remember').addEventListener('click', setAlarm);
 document.getElementById('RememberNot').addEventListener('click', clearAlarm);
 
+
 function postData(url, data) {
   // Default options are marked with *
   return fetch(url, {
@@ -68,7 +68,7 @@ function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc3MDA1Mn0.jwUaC9yM9CphdOOnipx3X0EFvtdjApyGbIilFOaP2wk',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc4Njg4MX0.fdrFyR3xTyyGIpQrTjiapozF0hyBLjxLgr463VpWNMM',//token
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -187,3 +187,41 @@ function copyTextToClipboard(text) {
 document.addEventListener('DOMContentLoaded',  function(event) {
   copyTextToClipboard(window.location.href);
 });
+
+
+var DataS
+function GetAll(){
+  getData(' https://memoapp.net/api/categories', {})
+  .then(data => {console.log(data),DataS=(data)})//,console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+
+}
+//appi/users/login
+document.addEventListener('DOMContentLoaded', LOGIN());
+document.addEventListener('DOMContentLoaded', GetAll());
+///api/categories
+
+function LOGIN(){
+
+  postData(' https://memoapp.net/api/users/login', {username: "NekoIme", password:"NekoIme"})
+  .then(data =>{ console.log(data), console.log("a sta da radim")}) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+}
+
+function getData(url) {
+  // Default options are marked with *
+  return fetch(url, { // must match 'Content-Type' header
+    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+    //credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc4Njg4MX0.fdrFyR3xTyyGIpQrTjiapozF0hyBLjxLgr463VpWNMM',//token
+      'Content-Type': 'application/json',
+      'user-agent': 'MemoApp Chrome Extension v0.1'
+    },
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //mode: 'cors', // no-cors, cors, *same-origin
+    //redirect: 'follow', // *manual, follow, error
+    //referrer: 'no-referrer', // *client, no-referrer
+  })
+  .then(response => response.json()) // parses response to JSON
+}

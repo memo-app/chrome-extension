@@ -15,11 +15,9 @@ function clearAlarm() {
 }
 
 function launchApp() {
-  postData(' https://memoapp.net/api/memos', {link: "nekiLink", title:"NekiTitle", description:"NekiDeskripsn", categories: []})
-  .then(data => console.log(data)) // JSON from `response.json()` call
-  .catch(error => console.error(error))
- // window.open("https://memoapp.net/");
-  //window.close(); // Only needed on OSX because of crbug.com/63594
+
+  window.open("https://memoapp.net/");
+  window.close(); // Only needed on OSX because of crbug.com/63594
 }
   
   // Adds DOM nodes for |app| into |appsDiv|.
@@ -71,7 +69,7 @@ function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJfaWQiOiI1YWFhZjJmZGI4MzE1ZDIxNTM5NWQwOGIiLCJ1c2VybmFtZSI6Ik5la29JbWUiLCJwYXNzd29yZCI6IiQyYSQxMCR2YVo5YlllNHRZNEJuR2Yzbjg5ekp1V0R2NmMwbndKenU0NmxWV2RpRkJvZlpvcVIxVDZTMiIsIl9fdiI6MCwiaWF0IjoxNTIyMTY3MTUxfQ.rzDElGVPqzdUCZVMOD_h0qhBFReHQpBU716R9cShG7g',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc3MDA1Mn0.jwUaC9yM9CphdOOnipx3X0EFvtdjApyGbIilFOaP2wk',//token
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -84,30 +82,72 @@ function postData(url, data) {
 }
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
-document.getElementById("drop").addEventListener("click", myFunction);
+document.getElementById("drop").addEventListener('click', myFunction);
+document.getElementById("CategoryInput").addEventListener("keyup", filterFunction);
+document.getElementById('Save').addEventListener('click', SaveFunction)
 
+function SaveFunction(){
+  var ourCategory = document.getElementById("category").value;
+  var ourLink = document.getElementById("link").value
+  var ourTitle = document.getElementById("title").value 
+  var ourDescritption = document.getElementById("description").value
 
+  postData(' https://memoapp.net/api/memos', {link: ourLink, title:ourTitle, description:ourDescritption, categories: [ourCategory]})
+  .then(data => console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+}
+
+function choiceCategory(category) {
+  document.getElementById("category").value=category
+
+}
 
 function myFunction() {
-  
   document.getElementById("myDropdown").classList.toggle('show');
 }
 
-
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-if (!event.target.matches('.dropbtn')) {
-
-  var dropdowns = document.getElementsByClassName("dropdown-content");
-  var i;
-  for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show')) {
-      openDropdown.classList.remove('show');
-    }
+function filterFunction() {
+  
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("CategoryInput");
+  filter = input.value.toUpperCase();
+  a = document.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+      if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+          a[i].style.display = "";
+      } else {
+          a[i].style.display = "none";
+      }
   }
 }
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  
+  if (event.target.matches('.cat') ) {
+    document.getElementById("cat").addEventListener('click', choiceCategory("cat"));
+    
+  }
+  if (event.target.matches('.dog') ) {
+    document.getElementById("dog").addEventListener('click', choiceCategory("dog"));
+    
+  }
+  if (event.target.matches('.animal') ) {
+    document.getElementById("animal").addEventListener('click',choiceCategory("animal"));
+    
+  }
+
+  if (!event.target.matches('.dropbtn') && !event.target.matches('.CategoryInput') ) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+
 }
 
 

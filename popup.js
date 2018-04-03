@@ -82,8 +82,9 @@ function postData(url, data) {
 }
 /* When the user clicks on the button, 
 toggle between hiding and showing the dropdown content */
-document.getElementById("drop").addEventListener('click', myFunction);
-document.getElementById("CategoryInput").addEventListener("keyup", filterFunction);
+
+document.getElementById("category").addEventListener("keydown", myFunction);
+document.getElementById("category").addEventListener("keyup",  filterFunction);
 document.getElementById('Save').addEventListener('click', SaveFunction)
 
 function SaveFunction(){
@@ -101,15 +102,25 @@ function choiceCategory(category) {
   document.getElementById("category").value=category
 
 }
-
 function myFunction() {
-  document.getElementById("myDropdown").classList.toggle('show');
+  var dropdowns = document.getElementsByClassName("dropdown-content");
+  var i;
+  for (i = 0; i < dropdowns.length; i++) {
+    var openDropdown = dropdowns[i];
+    if (openDropdown.classList.contains('show')) {
+      //openDropdown.classList.remove('show');
+    }
+    else{
+      openDropdown.classList.add('show');
+    }
+  }
+  //document.getElementById("myDropdown").style.background = "yellow"
 }
 
 function filterFunction() {
   
   var input, filter, ul, li, a, i;
-  input = document.getElementById("CategoryInput");
+  input = document.getElementById("category");
   filter = input.value.toUpperCase();
   a = document.getElementsByTagName("a");
   for (i = 0; i < a.length; i++) {
@@ -136,7 +147,7 @@ window.onclick = function(event) {
     
   }
 
-  if (!event.target.matches('.dropbtn') && !event.target.matches('.CategoryInput') ) {
+  if (!event.target.matches('.category') && !event.target.matches('.CategoryInput') ) {
 
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;

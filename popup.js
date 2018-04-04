@@ -1,5 +1,7 @@
 'use strict';
 
+// ALARM
+
 function setAlarm(event) {
   let minutes = parseFloat(event.target.value);
   chrome.browserAction.setBadgeText({text: 'ON'});
@@ -13,6 +15,8 @@ function clearAlarm() {
   chrome.alarms.clearAll();
   window.close();
 }
+
+// APP LAUNCH
 
 function launchApp() {
   window.open("https://memoapp.net/");
@@ -50,16 +54,8 @@ function addApp(appsDiv) {
     addApp(appsDiv);
   }
 
-  //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu
-  // Initalize the popup window.
-document.addEventListener('DOMContentLoaded', CreateAppDisplay());
 
-// ovdje definiramo da kada se kline na button definiran u popup.html-u da se pozove funkcija
-//An Alarm delay of less than the minimum 1 minute will fire
-// in approximately 1 minute incriments if released
-document.getElementById('Remember').addEventListener('click', setAlarm);
-//document.getElementById('RememberNot').addEventListener('click', clearAlarm);
-
+// POST DATA
 
 function postData(url, data) {
   // Default options are marked with *
@@ -79,42 +75,34 @@ function postData(url, data) {
   })
   .then(response => response.json()) // parses response to JSON
 }
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
 
-document.getElementById("category").addEventListener("keydown", myFunction);
-document.getElementById("category").addEventListener("keyup",  filterFunction);
-document.getElementById('Save').addEventListener('click', SaveFunction)
+// GET DATA
 
-function SaveFunction(){
-  var ourCategory = document.getElementById("category").value;
-  var ourLink = document.getElementById("link").value
-  var ourTitle = document.getElementById("title").value 
-  var ourDescritption = document.getElementById("description").value
-
-  postData(' https://memoapp.net/api/memos', {link: ourLink, title:ourTitle, description:ourDescritption, categories: [ourCategory]})
-  .then(data => console.log(data)) // JSON from `response.json()` call
-  .catch(error => console.error(error))
+function getData(url) {
+  // Default options are marked with *
+  return fetch(url, { // must match 'Content-Type' header
+    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
+    //credentials: 'same-origin', // include, same-origin, *omit
+    headers: {
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjg1NjkxNX0.ptPWCDbJU016SeMFV79aQNg1yJ354pkEvVRbRYv1Q3U',//token
+      'Content-Type': 'application/json',
+      'user-agent': 'MemoApp Chrome Extension v0.1'
+    },
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //mode: 'cors', // no-cors, cors, *same-origin
+    //redirect: 'follow', // *manual, follow, error
+    //referrer: 'no-referrer', // *client, no-referrer
+  })
+  .then(response => response.json()) // parses response to JSON
 }
 
-function choiceCategory(category) {
-  document.getElementById("category").value=category
+// LINK
 
+function GetCurrentLink(){
+  document.getElementById("link").value= chrome.extension.getBackgroundPage().myURL
 }
-function myFunction() {
-  var dropdowns = document.getElementsByClassName("dropdown-content");
-  var i;
-  for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show')) {
-      //openDropdown.classList.remove('show');
-    }
-    else{
-      openDropdown.classList.add('show');
-    }
-  }
-  //document.getElementById("myDropdown").style.background = "yellow"
-}
+
+// CATEGORY
 
 function filterFunction() {
   
@@ -130,6 +118,57 @@ function filterFunction() {
       }
   }
 }
+
+function choiceCategory(category) {
+  document.getElementById("category").value=category
+}
+
+
+function displayDropdown() {
+  var dropdowns = document.getElementsByClassName("dropdown-content");
+  var i;
+  for (i = 0; i < dropdowns.length; i++) {
+    var openDropdown = dropdowns[i];
+    if (openDropdown.classList.contains('show')) {
+      //openDropdown.classList.remove('show');
+    }
+    else{
+      openDropdown.classList.add('show');
+    }
+  }
+}
+
+// SAVE 
+
+function SaveFunction(){
+  var ourCategory = document.getElementById("category").value;
+  var ourLink = document.getElementById("link").value
+  var ourTitle = document.getElementById("title").value 
+  var ourDescritption = document.getElementById("description").value
+
+  postData(' https://memoapp.net/api/memos', {link: ourLink, title:ourTitle, description:ourDescritption, categories: [ourCategory]})
+  .then(data => console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+}
+
+ // Initalize the popup window.
+ //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu
+document.addEventListener('DOMContentLoaded', CreateAppDisplay());
+document.addEventListener('DOMContentLoaded',  GetCurrentLink);
+
+/* When the user clicks on the button*/
+// ovdje definiramo da kada se kline na button definiran u popup.html-u da se pozove funkcija
+//An Alarm delay of less than the minimum 1 minute will fire
+// in approximately 1 minute incriments if released
+document.getElementById('Remember').addEventListener('click', setAlarm);
+document.getElementById('RememberNot').addEventListener('click', clearAlarm);
+document.getElementById("category").addEventListener("keydown", displayDropdown);
+document.getElementById("category").addEventListener("keyup",  filterFunction);
+document.getElementById('Save').addEventListener('click', SaveFunction)
+
+
+
+
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   
@@ -161,22 +200,14 @@ window.onclick = function(event) {
 }
 
 
-document.addEventListener('DOMContentLoaded',  GetCurrentLink);
+// TODO: NOT DONE YET
 
-function GetCurrentLink(){
-  document.getElementById("link").value= chrome.extension.getBackgroundPage().myURL
-}
 var DataS
 function GetAll(){
   getData(' https://memoapp.net/api/categories', {})
   .then(data => {console.log(data),DataS=(data)})//,console.log(data)) // JSON from `response.json()` call
   .catch(error => console.error(error))
-
 }
-//appi/users/login
-document.addEventListener('DOMContentLoaded', LOGIN());
-document.addEventListener('DOMContentLoaded', GetAll());
-///api/categories
 
 function LOGIN(){
 
@@ -184,21 +215,10 @@ function LOGIN(){
   .then(data =>{ console.log(data), console.log("a sta da radim")}) // JSON from `response.json()` call
   .catch(error => console.error(error))
 }
+//appi/users/login
+document.addEventListener('DOMContentLoaded', LOGIN());
+document.addEventListener('DOMContentLoaded', GetAll());
 
-function getData(url) {
-  // Default options are marked with *
-  return fetch(url, { // must match 'Content-Type' header
-    cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
-    //credentials: 'same-origin', // include, same-origin, *omit
-    headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc4Njg4MX0.fdrFyR3xTyyGIpQrTjiapozF0hyBLjxLgr463VpWNMM',//token
-      'Content-Type': 'application/json',
-      'user-agent': 'MemoApp Chrome Extension v0.1'
-    },
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    //mode: 'cors', // no-cors, cors, *same-origin
-    //redirect: 'follow', // *manual, follow, error
-    //referrer: 'no-referrer', // *client, no-referrer
-  })
-  .then(response => response.json()) // parses response to JSON
-}
+
+
+

@@ -2,7 +2,7 @@
     "name": "Memo App",
     "description": "Save your links with ease",
     "version": "0.0.1",
-    "permissions": ["activeTab","alarms", "notifications", "storage", "management"],
+    "permissions": ["tabs","activeTab","alarms", "notifications", "storage", "management"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false

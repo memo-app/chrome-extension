@@ -168,6 +168,9 @@ function SaveFunction(){
   var ourLink = document.getElementById("link").value
   var ourTitle = document.getElementById("title").value 
   var ourDescritption = document.getElementById("description").value
+  ourTitle = 'default';
+  document.getElementById("title").value='default';
+  
 
   postData(' https://memoapp.net/api/memos', {link: ourLink, title:ourTitle, description:ourDescritption, categories: [ourCategory]})
   .then(data => console.log(data)) // JSON from `response.json()` call

@@ -27,3 +27,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) { // onUpdate
         myURL = tab.url;
     });
 });
+
+var rememberName=''
+var rememberPass=''

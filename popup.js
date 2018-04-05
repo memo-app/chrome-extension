@@ -201,8 +201,7 @@ function functionCloseModal(){
 function functionCancelLogin(){
   document.getElementById('id01').style.display='none'
 }
-var rememberName=''
-var rememberPass=''
+
 function functionLoginSubmit(){
   var name=document.getElementById('uname').value
   var pass=document.getElementById('psw').value
@@ -210,23 +209,24 @@ function functionLoginSubmit(){
   .then(data =>{ console.log(data.data.token), dataToken=data.data.token,GetAll()}) // JSON from `response.json()` call
   .catch(error => console.error(error))
   if(document.getElementById('checkboxRemenber').checked==true){
-    rememberName=name;
-    rememberPass=pass
+    chrome.extension.getBackgroundPage().rememberName=name;
+    chrome.extension.getBackgroundPage().rememberPass=pass
 
   }
   document.getElementById('id01').style.display='none'  
 }
 
 function functionCheckToken(){
+  postData(' https://memoapp.net/api/users/login', {username: chrome.extension.getBackgroundPage().rememberName, password:chrome.extension.getBackgroundPage().rememberPass})
+.then(data =>{ console.log(data.data.token), dataToken=data.data.token,functionCheckToken}) // JSON from `response.json()` call
+.catch(error => console.error(error))
   GetAll()
 }
  // Initalize the popup window.
  //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu
 document.addEventListener('DOMContentLoaded', CreateAppDisplay());
 document.addEventListener('DOMContentLoaded',  GetCurrentLink);
-document.addEventListener('DOMContentLoaded',  postData(' https://memoapp.net/api/users/login', {username: rememberName, password:rememberPass})
-.then(data =>{ console.log(data.data.token), dataToken=data.data.token,functionCheckToken}) // JSON from `response.json()` call
-.catch(error => console.error(error)));
+document.addEventListener('DOMContentLoaded', functionCheckToken);
 /* When the user clicks on the button*/
 // ovdje definiramo da kada se kline na button definiran u popup.html-u da se pozove funkcija
 //An Alarm delay of less than the minimum 1 minute will fire

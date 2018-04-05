@@ -187,30 +187,12 @@ window.onclick = function(event) {
   var myDropdown = document.getElementById("myDropdown");
   if (typeof myDropdown != 'undefined'){
     var dropdown = document.getElementById('myDropdown');
-    // for (var i = 0; i < data.length; i++) {
-    //   var cat = document.createElement('a');
-    //   var categoryName = data[i];
-    //   cat.href = '#'+categoryName;
-    //   cat.id = categoryName;
-    //   cat.className = categoryName;
-    //   cat.innerHTML = categoryName;
-    //   dropdown.appendChild(cat)
-    //   }    
-    console.log(myDropdown.a);
-    //console.log(myDropdown);
-  }
-
-  if (event.target.matches('.cat') ) {
-    document.getElementById("cat").addEventListener('click', choiceCategory("cat"));
-    
-  }
-  if (event.target.matches('.dog') ) {
-    document.getElementById("dog").addEventListener('click', choiceCategory("dog"));
-    
-  }
-  if (event.target.matches('.animal') ) {
-    document.getElementById("animal").addEventListener('click',choiceCategory("animal"));
-    
+    for (var i = 0; i < myDropdown.children.length; i++) {
+      var currentCategory = myDropdown.children[i];
+      if (event.target.matches("."+currentCategory.id) ) {
+        document.getElementById(currentCategory.id).addEventListener('click', choiceCategory(currentCategory.id));
+      }
+      }    
   }
 
   if (!event.target.matches('.category') && !event.target.matches('.CategoryInput') ) {

@@ -54,11 +54,13 @@ function addApp(appsDiv) {
     for (var i = 0; i < data.length; i++) {
       var cat = document.createElement('a');
       var categoryName = data[i];
+      if(categoryName != ""){
       cat.href = '#'+categoryName;
       cat.id = categoryName;
       cat.className = categoryName;
       cat.innerHTML = categoryName;
       dropdown.appendChild(cat)
+    }
       }
   }    
 
@@ -186,22 +188,32 @@ function functionCloseModal(){
 function functionCancelLogin(){
   document.getElementById('id01').style.display='none'
 }
-
+var rememberName=''
+var rememberPass=''
 function functionLoginSubmit(){
   var name=document.getElementById('uname').value
   var pass=document.getElementById('psw').value
   postData(' https://memoapp.net/api/users/login', {username: name, password:pass})
   .then(data =>{ console.log(data.data.token), dataToken=data.data.token,GetAll()}) // JSON from `response.json()` call
   .catch(error => console.error(error))
+  if(document.getElementById('checkboxRemenber').checked==true){
+    rememberName=name;
+    rememberPass=pass
+
+  }
   document.getElementById('id01').style.display='none'  
 }
 
-
+function functionCheckToken(){
+  GetAll()
+}
  // Initalize the popup window.
  //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu
 document.addEventListener('DOMContentLoaded', CreateAppDisplay());
 document.addEventListener('DOMContentLoaded',  GetCurrentLink);
-
+document.addEventListener('DOMContentLoaded',  postData(' https://memoapp.net/api/users/login', {username: rememberName, password:rememberPass})
+.then(data =>{ console.log(data.data.token), dataToken=data.data.token,functionCheckToken}) // JSON from `response.json()` call
+.catch(error => console.error(error)));
 /* When the user clicks on the button*/
 // ovdje definiramo da kada se kline na button definiran u popup.html-u da se pozove funkcija
 //An Alarm delay of less than the minimum 1 minute will fire
@@ -230,7 +242,7 @@ window.onclick = function(event) {
 
     for (var i = 0; i < myDropdown.children.length; i++) {
       var currentCategory = myDropdown.children[i];
-      if (event.target.matches("."+currentCategory.id) ) {
+      if (currentCategory.id != "" && event.target.matches("."+currentCategory.id) ) {
         document.getElementById(currentCategory.id).addEventListener('click', choiceCategory(currentCategory.id));
       }
       }    

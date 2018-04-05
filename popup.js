@@ -163,6 +163,14 @@ function displayDropdown() {
 
 // SAVE 
 
+function functionShowSaved(){
+  console.log('u funkciji');
+  console.log(document.getElementById('Save'));
+  document.getElementById('Save').style.background='coral';
+  document.getElementById('Save').innerText = 'Link saved!'
+
+}
+
 function SaveFunction(){
   var ourCategory = document.getElementById("category").value;
   var ourLink = document.getElementById("link").value
@@ -173,8 +181,10 @@ function SaveFunction(){
   
 
   postData(' https://memoapp.net/api/memos', {link: ourLink, title:ourTitle, description:ourDescritption, categories: [ourCategory]})
-  .then(data => console.log(data)) // JSON from `response.json()` call
+  //.then(data => {console.log(data), console.log('da'), functionShowSaved}) // JSON from `response.json()` call
+  .then(functionShowSaved) // JSON from `response.json()` call
   .catch(error => console.error(error))
+  
 }
 
 // LOGIN

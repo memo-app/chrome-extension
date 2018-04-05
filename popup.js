@@ -38,7 +38,7 @@ function addApp(appsDiv) {
 
     var title = document.createElement('span');
     title.className = 'app_title';
-    //title.innerText = 'Memo app';
+    title.innerText = 'Visit me! :)';
     div.appendChild(title);
 
     appsDiv.appendChild(div);
@@ -81,7 +81,7 @@ function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTA0LTAzVDE4OjIyOjQxLjQ4OFoiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFjM2M2NzE2ODU3MzcxMzFmNjg2ODViIiwidXNlcm5hbWUiOiJtYW1hIiwicGFzc3dvcmQiOiIkMmEkMTAkSEJwV1B3ZS5XUHRDa3UuSGNzNVJKT0JPYzVlOUUxNnZGWURxSERudi9VOUt6RHVwSjlPWksiLCJfX3YiOjAsImlhdCI6MTUyMjkzNjI4Mn0.CNGo3kOn531Ow1O6NAZ1x1JtxuL1dI7v0Kbay7rSOd8',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjk0MjEyMH0.Ly5-sRJTldUHk9PL5iFhC0xdf3bhLs4HVzRnWLe3TS4',
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -101,7 +101,7 @@ function getData(url) {
     cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTA0LTAzVDE4OjIyOjQxLjQ4OFoiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFjM2M2NzE2ODU3MzcxMzFmNjg2ODViIiwidXNlcm5hbWUiOiJtYW1hIiwicGFzc3dvcmQiOiIkMmEkMTAkSEJwV1B3ZS5XUHRDa3UuSGNzNVJKT0JPYzVlOUUxNnZGWURxSERudi9VOUt6RHVwSjlPWksiLCJfX3YiOjAsImlhdCI6MTUyMjkzNjI4Mn0.CNGo3kOn531Ow1O6NAZ1x1JtxuL1dI7v0Kbay7rSOd8',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjk0MjEyMH0.Ly5-sRJTldUHk9PL5iFhC0xdf3bhLs4HVzRnWLe3TS4',
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -183,10 +183,15 @@ document.getElementById('Save').addEventListener('click', SaveFunction)
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
+//if (!event.target.matches('.modal')) {
+    //document.getElementsByClassName('modal').style.display = "none"
+    //modal.style.display = "none";
+//}//
   
   var myDropdown = document.getElementById("myDropdown");
   if (typeof myDropdown != 'undefined'){
     var dropdown = document.getElementById('myDropdown');
+
     for (var i = 0; i < myDropdown.children.length; i++) {
       var currentCategory = myDropdown.children[i];
       if (event.target.matches("."+currentCategory.id) ) {
@@ -210,7 +215,8 @@ window.onclick = function(event) {
 }
 
 
-// TODO: NOT DONE YET
+
+ // ANNIE DIO
 
 var DataS
 function GetAll(){
@@ -218,6 +224,18 @@ function GetAll(){
   .then(data => {console.log(data),DataS=(data), createCategory(DataS.data)})//,console.log(data)) // JSON from `response.json()` call
   .catch(error => console.error(error))
 }
+
+document.addEventListener('DOMContentLoaded', GetAll());
+
+// LUKA DIO
+
+function functionLogin(){
+  console.log("Tu sam")
+  document.getElementById('id01').style.display='block'
+}
+
+// TODO: NOT DONE YET
+document.getElementById('Login').addEventListener('click',functionLogin);
 
 function LOGIN(){
 
@@ -227,7 +245,6 @@ function LOGIN(){
 }
 //appi/users/login
 //document.addEventListener('DOMContentLoaded', LOGIN());
-document.addEventListener('DOMContentLoaded', GetAll());
 
 
 

@@ -1,6 +1,7 @@
 'use strict';
 
 // ALARM
+var dataToken=''
 
 function setAlarm(event) {
   let minutes = parseFloat(event.target.value);
@@ -81,7 +82,7 @@ function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjk0MjEyMH0.Ly5-sRJTldUHk9PL5iFhC0xdf3bhLs4HVzRnWLe3TS4',
+      'x-access-token':dataToken,
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -101,7 +102,7 @@ function getData(url) {
     cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjk0MjEyMH0.Ly5-sRJTldUHk9PL5iFhC0xdf3bhLs4HVzRnWLe3TS4',
+      'x-access-token': dataToken,
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -120,6 +121,12 @@ function GetCurrentLink(){
 }
 
 // CATEGORY
+var DataS
+function GetAll(){
+  getData(' https://memoapp.net/api/categories', {})
+  .then(data => {console.log(data),DataS=(data), createCategory(DataS.data)})//,console.log(data)) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+}
 
 function filterFunction() {
   
@@ -165,6 +172,31 @@ function SaveFunction(){
   .catch(error => console.error(error))
 }
 
+// LOGIN
+
+
+function functionLogin(){
+  document.getElementById('id01').style.display='block'
+}
+
+function functionCloseModal(){
+  document.getElementById('id01').style.display='none'
+}
+
+function functionCancelLogin(){
+  document.getElementById('id01').style.display='none'
+}
+
+function functionLoginSubmit(){
+  var name=document.getElementById('uname').value
+  var pass=document.getElementById('psw').value
+  postData(' https://memoapp.net/api/users/login', {username: name, password:pass})
+  .then(data =>{ console.log(data.data.token), dataToken=data.data.token,GetAll()}) // JSON from `response.json()` call
+  .catch(error => console.error(error))
+  document.getElementById('id01').style.display='none'  
+}
+
+
  // Initalize the popup window.
  //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu
 document.addEventListener('DOMContentLoaded', CreateAppDisplay());
@@ -180,6 +212,11 @@ document.getElementById("category").addEventListener("keydown", displayDropdown)
 document.getElementById("category").addEventListener("keyup",  filterFunction);
 document.getElementById('Save').addEventListener('click', SaveFunction)
 
+// Login
+document.getElementById('Login').addEventListener('click',functionLogin);
+document.getElementById('closeModal').addEventListener('click', functionCloseModal);
+document.getElementById('cancelLogin').addEventListener('click', functionCancelLogin);
+document.getElementById('loginSubmit').addEventListener('click', functionLoginSubmit);
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
@@ -213,39 +250,4 @@ window.onclick = function(event) {
   }
 
 }
-
-
-
- // ANNIE DIO
-
-var DataS
-function GetAll(){
-  getData(' https://memoapp.net/api/categories', {})
-  .then(data => {console.log(data),DataS=(data), createCategory(DataS.data)})//,console.log(data)) // JSON from `response.json()` call
-  .catch(error => console.error(error))
-}
-
-document.addEventListener('DOMContentLoaded', GetAll());
-
-// LUKA DIO
-
-function functionLogin(){
-  console.log("Tu sam")
-  document.getElementById('id01').style.display='block'
-}
-
-// TODO: NOT DONE YET
-document.getElementById('Login').addEventListener('click',functionLogin);
-
-function LOGIN(){
-
-  postData(' https://memoapp.net/api/users/login', {username: "mama", password:"tata"})
-  .then(data =>{ console.log(data), console.log("a sta da radim")}) // JSON from `response.json()` call
-  .catch(error => console.error(error))
-}
-//appi/users/login
-//document.addEventListener('DOMContentLoaded', LOGIN());
-
-
-
 

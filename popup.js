@@ -218,9 +218,9 @@ function functionLoginSubmit(){
 
 function functionCheckToken(){
   postData(' https://memoapp.net/api/users/login', {username: chrome.extension.getBackgroundPage().rememberName, password:chrome.extension.getBackgroundPage().rememberPass})
-.then(data =>{ console.log(data.data.token), dataToken=data.data.token,functionCheckToken}) // JSON from `response.json()` call
+.then(data =>{ console.log(data.data.token), dataToken=data.data.token,functionCheckToken,GetAll()}) // JSON from `response.json()` call
 .catch(error => console.error(error))
-  GetAll()
+  
 }
  // Initalize the popup window.
  //ovdje definiramo da kod otvaranja te nase ekstenzije onda se stvori link na stranicu

@@ -220,10 +220,9 @@ document.getElementById('loginSubmit').addEventListener('click', functionLoginSu
 
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-//if (!event.target.matches('.modal')) {
-    //document.getElementsByClassName('modal').style.display = "none"
-    //modal.style.display = "none";
-//}//
+  if (event.target == document.getElementById('id01')) {
+    document.getElementById('id01').style.display = "none";
+  }
   
   var myDropdown = document.getElementById("myDropdown");
   if (typeof myDropdown != 'undefined'){

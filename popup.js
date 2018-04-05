@@ -50,18 +50,15 @@ function addApp(appsDiv) {
     // Ovdje ostvarujemo poveznicu s popup.html dijelom u kojem smo definirali apps koristimo
     //var category = document.getElementById('dropdown_items');
     var dropdown = document.getElementById('myDropdown');
-    //console.log(data);
     for (var i = 0; i < data.length; i++) {
       var cat = document.createElement('a');
       var categoryName = data[i];
-      //console.log(categoryName);
       cat.href = '#'+categoryName;
       cat.id = categoryName;
       cat.className = categoryName;
-      //console.log(cat);
+      cat.innerHTML = categoryName;
       dropdown.appendChild(cat)
       }
-    //console.log(dropdown);
   }    
 
 
@@ -147,11 +144,9 @@ function choiceCategory(category) {
 function displayDropdown() {
   var dropdowns = document.getElementsByClassName("dropdown-content");
   console.log(dropdowns);
-  var i;
-  for (i = 0; i < dropdowns.length; i++) {
+  for (var i = 0; i < dropdowns.length; i++) {
     var openDropdown = dropdowns[i];
     if (!(openDropdown.classList.contains('show'))) {
-      console.log('U IF-U SAM');
       openDropdown.classList.add('show');
     }
   }
@@ -186,11 +181,25 @@ document.getElementById("category").addEventListener("keyup",  filterFunction);
 document.getElementById('Save').addEventListener('click', SaveFunction)
 
 
-
-
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   
+  var myDropdown = document.getElementById("myDropdown");
+  if (typeof myDropdown != 'undefined'){
+    var dropdown = document.getElementById('myDropdown');
+    // for (var i = 0; i < data.length; i++) {
+    //   var cat = document.createElement('a');
+    //   var categoryName = data[i];
+    //   cat.href = '#'+categoryName;
+    //   cat.id = categoryName;
+    //   cat.className = categoryName;
+    //   cat.innerHTML = categoryName;
+    //   dropdown.appendChild(cat)
+    //   }    
+    console.log(myDropdown.a);
+    //console.log(myDropdown);
+  }
+
   if (event.target.matches('.cat') ) {
     document.getElementById("cat").addEventListener('click', choiceCategory("cat"));
     

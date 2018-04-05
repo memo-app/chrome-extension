@@ -44,12 +44,32 @@ function addApp(appsDiv) {
     appsDiv.appendChild(div);
   }
 
+
+  // ovo se poziva kad se dobiju podatci o kategorijama sa stranice
+  function createCategory(data) {
+    // Ovdje ostvarujemo poveznicu s popup.html dijelom u kojem smo definirali apps koristimo
+    //var category = document.getElementById('dropdown_items');
+    var dropdown = document.getElementById('myDropdown');
+    //console.log(data);
+    for (var i = 0; i < data.length; i++) {
+      var cat = document.createElement('a');
+      var categoryName = data[i];
+      //console.log(categoryName);
+      cat.href = '#'+categoryName;
+      cat.id = categoryName;
+      cat.className = categoryName;
+      //console.log(cat);
+      dropdown.appendChild(cat)
+      }
+    //console.log(dropdown);
+  }    
+
+
   function CreateAppDisplay() {
     
     // Ovdje ostvarujemo poveznicu s popup.html dijelom u kojem smo definirali apps koristimo
     var appsDiv = document.getElementById('apps');
-  
-    // Empty the current content.
+      // Empty the current content.
     appsDiv.innerHTML = '';
     addApp(appsDiv);
   }
@@ -64,7 +84,7 @@ function postData(url, data) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjc4Njg4MX0.fdrFyR3xTyyGIpQrTjiapozF0hyBLjxLgr463VpWNMM',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTA0LTAzVDE4OjIyOjQxLjQ4OFoiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFjM2M2NzE2ODU3MzcxMzFmNjg2ODViIiwidXNlcm5hbWUiOiJtYW1hIiwicGFzc3dvcmQiOiIkMmEkMTAkSEJwV1B3ZS5XUHRDa3UuSGNzNVJKT0JPYzVlOUUxNnZGWURxSERudi9VOUt6RHVwSjlPWksiLCJfX3YiOjAsImlhdCI6MTUyMjkzNjI4Mn0.CNGo3kOn531Ow1O6NAZ1x1JtxuL1dI7v0Kbay7rSOd8',//token
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -84,7 +104,7 @@ function getData(url) {
     cache: 'default', // *default, no-cache, reload, force-cache, only-if-cached
     //credentials: 'same-origin', // include, same-origin, *omit
     headers: {
-      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTAzLTE1VDIyOjI2OjA1Ljk4NloiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFhYWYyZmRiODMxNWQyMTUzOTVkMDhiIiwidXNlcm5hbWUiOiJOZWtvSW1lIiwicGFzc3dvcmQiOiIkMmEkMTAkdmFaOWJZZTR0WTRCbkdmM244OXpKdVdEdjZjMG53Snp1NDZsVldkaUZCb2Zab3FSMVQ2UzIiLCJfX3YiOjAsImlhdCI6MTUyMjg1NjkxNX0.ptPWCDbJU016SeMFV79aQNg1yJ354pkEvVRbRYv1Q3U',//token
+      'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVkQXQiOiIyMDE4LTA0LTAzVDE4OjIyOjQxLjQ4OFoiLCJsb2dpbnMiOnsiZmFjZWJvb2siOnt9LCJnb29nbGUiOnt9fSwiX2lkIjoiNWFjM2M2NzE2ODU3MzcxMzFmNjg2ODViIiwidXNlcm5hbWUiOiJtYW1hIiwicGFzc3dvcmQiOiIkMmEkMTAkSEJwV1B3ZS5XUHRDa3UuSGNzNVJKT0JPYzVlOUUxNnZGWURxSERudi9VOUt6RHVwSjlPWksiLCJfX3YiOjAsImlhdCI6MTUyMjkzNjI4Mn0.CNGo3kOn531Ow1O6NAZ1x1JtxuL1dI7v0Kbay7rSOd8',//token
       'Content-Type': 'application/json',
       'user-agent': 'MemoApp Chrome Extension v0.1'
     },
@@ -126,13 +146,12 @@ function choiceCategory(category) {
 
 function displayDropdown() {
   var dropdowns = document.getElementsByClassName("dropdown-content");
+  console.log(dropdowns);
   var i;
   for (i = 0; i < dropdowns.length; i++) {
     var openDropdown = dropdowns[i];
-    if (openDropdown.classList.contains('show')) {
-      //openDropdown.classList.remove('show');
-    }
-    else{
+    if (!(openDropdown.classList.contains('show'))) {
+      console.log('U IF-U SAM');
       openDropdown.classList.add('show');
     }
   }
@@ -205,18 +224,18 @@ window.onclick = function(event) {
 var DataS
 function GetAll(){
   getData(' https://memoapp.net/api/categories', {})
-  .then(data => {console.log(data),DataS=(data)})//,console.log(data)) // JSON from `response.json()` call
+  .then(data => {console.log(data),DataS=(data), createCategory(DataS.data)})//,console.log(data)) // JSON from `response.json()` call
   .catch(error => console.error(error))
 }
 
 function LOGIN(){
 
-  postData(' https://memoapp.net/api/users/login', {username: "NekoIme", password:"NekoIme"})
+  postData(' https://memoapp.net/api/users/login', {username: "mama", password:"tata"})
   .then(data =>{ console.log(data), console.log("a sta da radim")}) // JSON from `response.json()` call
   .catch(error => console.error(error))
 }
 //appi/users/login
-document.addEventListener('DOMContentLoaded', LOGIN());
+//document.addEventListener('DOMContentLoaded', LOGIN());
 document.addEventListener('DOMContentLoaded', GetAll());
 
 
